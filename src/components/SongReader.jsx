@@ -281,7 +281,7 @@ export const SongReader = ({ song, onBack, onUpdate }) => {
                     touchAction: isEditing ? 'auto' : 'none'
                 }}
             >
-                <div className="min-h-full px-4 sm:px-6 py-10 md:px-32 max-w-6xl mx-auto">
+                <div className="min-h-full px-2 py-10 w-full mx-auto">
                     <div
                         contentEditable={isEditing}
                         onBlur={handleContentBlur}

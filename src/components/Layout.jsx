@@ -2,7 +2,7 @@ import clsx from 'clsx';
 
 export const Layout = ({ children, className }) => {
     return (
-        <div className="relative h-screen w-full bg-black text-white overflow-hidden font-sans">
+        <div className="relative h-[100dvh] w-full bg-black text-white overflow-hidden font-sans">
             {/* Animated Background Blobs - Subtler */}
             <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden opacity-10">
                 <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-indigo-900/40 rounded-full blur-[100px] animate-blob"></div>

@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { Plus, Music, Trash2, Search, Download, Upload, ShieldCheck, X } from 'lucide-react';
+import { Plus, Music, Trash2, Search, Download, Upload, ShieldCheck, X, Maximize } from 'lucide-react';
 import { Layout } from './Layout';
 import { APP_CONFIG } from '../config';
 
@@ -58,7 +58,7 @@ export const SongList = ({ songs, onSelect, onImport, onDelete, onImportBackup }
     );
 
     return (
-        <Layout className="p-6">
+        <Layout className="p-6 overflow-y-auto">
             <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-12">
                 <div className="flex items-center gap-4">
                     <img
@@ -159,6 +159,22 @@ export const SongList = ({ songs, onSelect, onImport, onDelete, onImportBackup }
                     </div>
                 )}
             </div>
+
+
+            {/* Fullscreen Toggle for List View */}
+            <button
+                onClick={() => {
+                    if (!document.fullscreenElement) {
+                        document.documentElement.requestFullscreen().catch(e => console.error(e));
+                    } else {
+                        document.exitFullscreen();
+                    }
+                }}
+                className="fixed bottom-6 left-6 p-3 bg-zinc-900/50 backdrop-blur-md border border-white/10 rounded-full text-white/40 hover:text-white hover:bg-zinc-800 transition-all z-50 shadow-xl"
+                title="Pantalla Completa"
+            >
+                <Maximize size={20} />
+            </button>
 
             {/* Backup Section */}
             <footer className="mt-auto pt-10 border-t border-white/5 flex flex-col items-center gap-6 pb-20">

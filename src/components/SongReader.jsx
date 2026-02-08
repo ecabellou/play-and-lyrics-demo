@@ -5,6 +5,7 @@ import { useScrollEngine } from '../hooks/useScrollEngine';
 import clsx from 'clsx';
 
 export const SongReader = ({ song, onBack, onUpdate }) => {
+    // Layout updated to full width
     const contentRef = useRef(null);
     const [localSong, setLocalSong] = useState(song);
     const [fontSize, setFontSize] = useState(32);

@@ -1,10 +1,10 @@
 {
-    "name": "play-and-lyrics-demo",
+    "name": "play-and-lyrics",
     "compatibility_date": "2024-09-23",
     "assets": {
-        "directory": "./dist-demo"
+        "directory": "./dist-full"
     },
     "build": {
-        "command": "npm run build:demo"
+        "command": "npm run build:full"
     }
 }

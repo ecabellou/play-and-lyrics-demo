@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "dev:demo": "cross-env VITE_IS_DEMO=true vite",
-    "build": "vite build",
+    "build": "npm run build:demo",
     "build:demo": "cross-env VITE_IS_DEMO=true vite build --outDir dist-demo",
     "build:full": "cross-env VITE_IS_DEMO=false vite build --outDir dist-full",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",

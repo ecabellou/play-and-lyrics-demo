@@ -8,7 +8,8 @@ export const SongReader = ({ song, onBack, onUpdate }) => {
     // Layout updated to full width
     const contentRef = useRef(null);
     const [localSong, setLocalSong] = useState(song);
-    const [fontSize, setFontSize] = useState(32);
+    // Initialize fontSize from persistent storage if available, otherwise default (will be auto-calced)
+    const [fontSize, setFontSize] = useState(song.fontSize || 32);
     const [isEditing, setIsEditing] = useState(false);
     const [isFullscreen, setIsFullscreen] = useState(false);
 
@@ -82,8 +83,56 @@ export const SongReader = ({ song, onBack, onUpdate }) => {
     };
 
     const adjustFontSize = (delta) => {
-        setFontSize(prev => Math.max(12, Math.min(200, prev + delta)));
+        const newSize = Math.max(12, Math.min(200, fontSize + delta));
+        setFontSize(newSize);
+        // Persist the new font size preference
+        const updated = { ...localSong, fontSize: newSize };
+        setLocalSong(updated);
+        onUpdate(updated);
     };
+
+    // Auto-calculate font size if not set manually
+    useEffect(() => {
+        if (song.fontSize) {
+            setFontSize(song.fontSize);
+            return;
+        }
+
+        const calculateAutoFontSize = () => {
+            const container = contentRef.current;
+            if (!container) return;
+
+            // Available width minus approximate padding (px-2 + safety buffer)
+            const availableWidth = container.clientWidth - 40;
+
+            const tempDiv = document.createElement('div');
+            tempDiv.style.position = 'absolute';
+            tempDiv.style.visibility = 'hidden';
+            tempDiv.style.height = 'auto';
+            tempDiv.style.width = 'max-content';
+            tempDiv.style.fontSize = '100px';
+            tempDiv.style.fontFamily = 'ui-sans-serif, system-ui, sans-serif';
+            tempDiv.innerHTML = song.content || '';
+
+            document.body.appendChild(tempDiv);
+            const contentWidth = tempDiv.getBoundingClientRect().width;
+            document.body.removeChild(tempDiv);
+
+            if (contentWidth > 0) {
+                // Calculate scale factor: 100px gives contentWidth, we want availableWidth
+                const scale = availableWidth / contentWidth;
+                const newSize = Math.floor(100 * scale * 0.95); // 0.95 factor for safety
+                setFontSize(Math.max(12, Math.min(200, newSize)));
+            }
+        };
+
+        // Run calculation
+        calculateAutoFontSize();
+
+        // Recalculate on resize if no manual size is set
+        window.addEventListener('resize', calculateAutoFontSize);
+        return () => window.removeEventListener('resize', calculateAutoFontSize);
+    }, [song.id, song.fontSize, song.content]);
 
     const toggleFullscreen = () => {
         if (!document.fullscreenElement) {

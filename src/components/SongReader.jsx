@@ -318,6 +318,9 @@ export const SongReader = ({ song, onBack, onUpdate }) => {
                 </div>
             </header>
 
+            {/* Reading Guide Line */}
+            <div className="fixed top-1/2 left-0 w-full h-[1px] bg-white z-40 pointer-events-none transform -translate-y-1/2 opacity-70" />
+
             {/* Scroll Container */}
             <div
                 ref={contentRef}
